@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  backend:
+    build: .
+    ports:
+      - "5003:5003"
+    environment:
+      - OPENROUTER_API_KEY=${OPENROUTER_API_KEY}
+    volumes:
+      - ./Pics:/app/Pics
+      - ./products.csv:/app/products.csv
+      - ./images.csv:/app/images.csv
+    depends_on:
+      - redis
+    command: python3 backend_endpoint.py
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.react
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - REACT_APP_BACKEND_URL=http://localhost:5003
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"

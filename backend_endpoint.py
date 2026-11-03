@@ -3,6 +3,8 @@ import sys
 import csv
 import time
 import json
+import base64
+import mimetypes
 from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from dotenv import load_dotenv
@@ -44,6 +46,9 @@ Instructions:
 7. Do not include background objects.
 8. If no highlights are found, return an empty array.
 9. Return ONLY valid JSON, without markdown.
+10. bbox MUST be an array of EXACTLY four numbers: [x_min, y_min, x_max, y_max].
+11. Never put an array inside a coordinate key such as x_min.
+12. Keep descriptions short (under 15 words) and return at most 6 highlights.
 
 JSON format:
 {
@@ -54,12 +59,7 @@ JSON format:
         {
           "name": "feature_name",
           "description": "feature_description",
-          "bbox": {
-            "x_min": 0,
-            "y_min": 0,
-            "x_max": 0,
-            "y_max": 0
-          }
+          "bbox": [100, 200, 300, 400]
         }
       ]
     }
@@ -87,122 +87,110 @@ class ImageDetector:
             base_url="https://openrouter.ai/api/v1"
         )
 
+    @staticmethod
+    def normalize_bbox(bbox):
+        """Convert [xmin, ymin, xmax, ymax] or a dict into a validated dict."""
+        keys = ("x_min", "y_min", "x_max", "y_max")
+        if isinstance(bbox, list) and len(bbox) == 4:
+            bbox = dict(zip(keys, bbox))
+        elif isinstance(bbox, dict) and len(bbox) == 1:
+            # Recover Qwen output such as {"x_min": [x1, y1, x2, y2]}.
+            only_value = next(iter(bbox.values()))
+            if isinstance(only_value, list) and len(only_value) == 4:
+                bbox = dict(zip(keys, only_value))
+        if not isinstance(bbox, dict) or any(key not in bbox for key in keys):
+            raise ValueError("bbox must contain x_min, y_min, x_max, y_max")
+        values = [bbox[key] for key in keys]
+        if any(isinstance(v, bool) or not isinstance(v, (int, float)) for v in values):
+            raise ValueError("bbox coordinates must be numeric")
+        x1, y1, x2, y2 = values
+        if not (0 <= x1 < x2 <= 1000 and 0 <= y1 < y2 <= 1000):
+            raise ValueError("bbox coordinates must satisfy 0 <= min < max <= 1000")
+        return dict(zip(keys, values))
+
     def detect_objects(self, image_path, product_id=None):
-        """
-        Detect objects in a local image file using Qwen/Qwen3-VL-235B-A22B-instruct model
-        """
+        """Detect product highlights in a local image via OpenRouter."""
+        if not os.path.isfile(image_path):
+            return {"product_id": product_id, "image_path": image_path,
+                    "error": f"Local image file not found: {image_path}"}
+
         try:
-            # Check if the local image file exists
-            if not os.path.exists(image_path):
-                return {
-                    "product_id": product_id,
-                    "image_path": image_path,
-                    "error": f"Local image file not found: {image_path}"
-                }
-
-            # Read and encode the image file to base64
-            import base64
             with open(image_path, "rb") as image_file:
-                img_str = base64.b64encode(image_file.read()).decode('utf-8')
-
-            # Create the request to OpenRouter with improved instruction for bounding boxes
-            response = self.client.chat.completions.create(
-                model="qwen/qwen3-vl-235B-A22B-instruct",
-                messages=[
-                    {
-                        "role": "user",
-                        "content": [
-                            {
-                                "type": "text",
-                                "text": f"{PROMPT}"
-                            },
-                            {
-                                "type": "image_url",
-                                "image_url": {
-                                    "url": f"data:image/jpeg;base64,{img_str}"
-                                }
-                            }
-                        ]
-                    }
+                encoded = base64.b64encode(image_file.read()).decode("ascii")
+            mime_type = mimetypes.guess_type(image_path)[0] or "image/jpeg"
+            messages = [{
+                "role": "user",
+                "content": [
+                    {"type": "text", "text": PROMPT},
+                    {"type": "image_url", "image_url": {
+                        "url": f"data:{mime_type};base64,{encoded}"
+                    }},
                 ],
-                max_tokens=2000,
-            )
+            }]
+            last_error = None
+            raw_content = ""
 
-            # Parse the response to extract object information including bounding boxes
-            response_content = response.choices[0].message.content
-            print("response_content", response_content)
+            for attempt in range(2):
+                # JSON mode support depends on the selected OpenRouter provider.
+                response = self.client.chat.completions.create(
+                    model="qwen/qwen3-vl-235B-A22B-instruct",
+                    messages=messages,
+                    response_format={"type": "json_object"},
+                    max_tokens=3000,
+                    temperature=0,
+                )
+                choice = response.choices[0]
+                raw_content = choice.message.content or ""
+                try:
+                    if choice.finish_reason == "length":
+                        raise ValueError("Model response was truncated (finish_reason=length)")
+                    if choice.finish_reason != "stop":
+                        raise ValueError(f"Unexpected finish_reason: {choice.finish_reason}")
 
-            # Обрабатываем текстовый ответ и пытаемся экстрактить JSON
-            try:
-                import json
-                # Ищем начало JSON, если ответ содержит в себе больше текста
-                json_start = response_content.find('{')
-                json_end = response_content.rfind('}') + 1
-                
-                if json_start != -1 and json_end != -1:
-                    json_string = response_content[json_start:json_end]
-                    parsed_response = json.loads(json_string)
-                    
-                    print("parsed_response", json.dumps(parsed_response, indent=2))
-                    
-                    # Обработка различный форматов ответа от модели
-                    if 'objects' in parsed_response:
-                        # Log bbox information if available
-                        print("✅ Found 'objects' in response")
-                        for obj in parsed_response.get('objects', []):
-                            print(f"Object: {obj.get('name', 'Unknown')}")
-                            # Обработка обоих форматов: highlights и прямые bbox
-                            if 'highlights' in obj and obj['highlights']:
-                                for highlight in obj.get('highlights', []):
-                                    bbox = highlight.get('bbox')
-                                    if bbox:
-                                        print(f"  Highlight BBox: x_min={bbox.get('x_min')}, y_min={bbox.get('y_min')}, "
-                                              f"x_max={bbox.get('x_max')}, y_max={bbox.get('y_max')}")
-                            elif 'bbox' in obj:
-                                bbox = obj.get('bbox')
-                                if bbox:
-                                    print(f"  Direct BBox: x_min={bbox.get('x_min')}, y_min={bbox.get('y_min')}, "
-                                          f"x_max={bbox.get('x_max')}, y_max={bbox.get('y_max')}")
-                        
-                        return {
-                            "product_id": product_id,
-                            "image_path": image_path,
-                            "objects": parsed_response['objects']
-                        }
-                    else:
-                        print("❌ No 'objects' found in response")
-                        return {
-                            "product_id": product_id,
-                            "image_path": image_path,
-                            "objects": [],
-                            "raw_response": response_content
-                        }
-                else:
-                    print("❌ Could not extract JSON from response")
-                    return {
-                        "product_id": product_id,
-                        "image_path": image_path,
-                        "objects": [],
-                        "raw_response": response_content
-                    }
-            except json.JSONDecodeError as e:
-                print(f"❌ JSON Decode Error: {e}")
-                print(f"Raw content length: {len(response_content)}")
-                print(f"Raw content preview: {response_content[:500]}")
-                return {
-                    "product_id": product_id,
-                    "image_path": image_path,
-                    "objects": [],
-                    "raw_response": response_content
-                }
+                    parsed = json.loads(raw_content)
+                    objects = parsed.get("objects")
+                    if not isinstance(objects, list):
+                        raise ValueError("objects must be an array")
+                    normalized_objects = []
+                    for obj in objects:
+                        if not isinstance(obj, dict):
+                            raise ValueError("Each object must be a JSON object")
+                        highlights = obj.get("highlights", [])
+                        if not isinstance(highlights, list):
+                            raise ValueError("highlights must be an array")
+                        normalized_highlights = []
+                        for highlight in highlights:
+                            if not isinstance(highlight, dict):
+                                raise ValueError("Each highlight must be a JSON object")
+                            normalized_highlights.append({
+                                "name": str(highlight.get("name", "")),
+                                "description": str(highlight.get("description", "")),
+                                "bbox": self.normalize_bbox(highlight.get("bbox")),
+                            })
+                        normalized_objects.append({
+                            "name": str(obj.get("name", "")),
+                            "highlights": normalized_highlights,
+                        })
+                    return {"product_id": product_id, "image_path": image_path,
+                            "objects": normalized_objects}
+                except (json.JSONDecodeError, ValueError, TypeError) as exc:
+                    last_error = str(exc)
+                    print(f"Invalid model output (attempt {attempt + 1}/2): {last_error}")
+                    print(f"finish_reason={choice.finish_reason}, preview={raw_content[:500]!r}")
+                    if attempt == 0:
+                        # Regenerate from the image, rather than trying to patch broken JSON.
+                        messages[0]["content"][0]["text"] = (
+                            PROMPT + "\nIMPORTANT: Previous output was invalid. "
+                            "Return complete valid JSON. Every bbox must be a four-number "
+                            "array [x_min, y_min, x_max, y_max]. Keep the response concise."
+                        )
 
-        except Exception as e:
-            error_msg = f"Error occurred during object detection: {str(e)}"
-            return {
-                "product_id": product_id,
-                "image_path": image_path,
-                "error": error_msg
-            }
+            return {"product_id": product_id, "image_path": image_path,
+                    "objects": [], "error": f"Invalid model response: {last_error}",
+                    "raw_response": raw_content}
+        except Exception as exc:
+            return {"product_id": product_id, "image_path": image_path,
+                    "error": f"Error occurred during object detection: {exc}"}
 
     def process_product_images(self, product_id):
         """
