@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bounding Box Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        
+        .image-container {
+            position: relative;
+            display: inline-block;
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+
+        .image-container img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .bounding-box {
+            position: absolute;
+            border: 3px solid #4CAF50;
+            background-color: rgba(76, 175, 80, 0.2);
+            z-index: 10;
+            box-sizing: border-box;
+            pointer-events: none;
+        }
+
+        .bounding-box-label {
+            position: absolute;
+            top: -30px;
+            left: 0;
+            background-color: #4CAF50;
+            color: white;
+            padding: 3px 8px;
+            font-size: 14px;
+            border-radius: 3px;
+            z-index: 11;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+            white-space: nowrap;
+            font-weight: bold;
+        }
+        
+        .info {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Testing Bounding Box Display</h1>
+    
+    <div class="info">
+        <p><strong>Test Data:</strong></p>
+        <ul>
+            <li>Coordinates: x_min=168, y_min=50, x_max=834, y_max=950</li>
+            <li>Image dimensions: 1000x1000 (normalized)</li>
+            <li>Calculated percentages: left=16.8%, top=5%, width=66.6%, height=90%</li>
+        </ul>
+    </div>
+    
+    <div class="image-container">
+        <img src="Pics/175336730299.jpg" alt="Test Image" width="500">
+        
+        <!-- Test bounding boxes with actual coordinates -->
+        <div class="bounding-box" style="left: 16.8%; top: 5%; width: 66.6%; height: 90%;">
+            <div class="bounding-box-label">Ribbed Knit Texture</div>
+        </div>
+        
+        <!-- Additional test box -->
+        <div class="bounding-box" style="left: 30%; top: 20%; width: 40%; height: 30%;">
+            <div class="bounding-box-label">Pattern Area</div>
+        </div>
+    </div>
+    
+    <p>This is a direct test of bounding box rendering. If you see green rectangles with labels above them, the display is working correctly.</p>
+</body>
+</html>

@@ -1,0 +1,543 @@
+Product ID: 39506410299
+Image Path: Pics/175336730299.jpg
+  Object: scarf
+  Location: center
+  Size: 85.0
+  Bounding Box: x_min=168, y_min=48, x_max=835, y_max=952
+----------------------------------------------------------------------------------------------------
+Product ID: 39506410299
+Image Path: Pics/175336740299.jpg
+  Object: knitted fabric
+  Location: center
+  Size: 100
+  Bounding Box: x_min=0, y_min=0, x_max=1000, y_max=1000
+----------------------------------------------------------------------------------------------------
+Product ID: 39506410299
+Image Path: Pics/175336750299.jpg
+  Object: knitted fabric
+  Location: entire image
+  Size: 100%
+  Bounding Box: x_min=0, y_min=0, x_max=1000, y_max=1000
+----------------------------------------------------------------------------------------------------
+Product ID: 40054730299
+Image Path: Pics/178760740299.jpg
+  Object: baseball cap
+  Location: center
+  Size: 45%
+  Bounding Box: x_min=84, y_min=244, x_max=912, y_max=755
+  Object: embroidered patch
+  Location: center-left
+  Size: 10%
+  Bounding Box: x_min=[288, 344, 561, 512], y_min=0, x_max=0, y_max=0
+----------------------------------------------------------------------------------------------------
+Product ID: 40054730299
+Image Path: Pics/172116570299.jpg
+  Object: baseball cap
+  Location: center
+  Size: 60
+  Bounding Box: x_min=84, y_min=247, x_max=912, y_max=753
+  Object: patch
+  Location: center-right
+  Size: 15
+  Bounding Box: x_min=436, y_min=347, x_max=724, y_max=518
+----------------------------------------------------------------------------------------------------
+Product ID: 40054730299
+Image Path: Pics/172116580299.jpg
+  Object: baseball cap
+  Location: center
+  Size: 45
+  Bounding Box: x_min=85, y_min=281, x_max=913, y_max=714
+----------------------------------------------------------------------------------------------------
+Product ID: 40054730299
+Image Path: Pics/172116590299.jpg
+  Object: baseball cap
+  Location: center
+  Size: 65.0
+  Bounding Box: x_min=85, y_min=179, x_max=912, y_max=819
+  Object: label
+  Location: top center
+  Size: 5.0
+  Bounding Box: x_min=[370, 184, 618, 275], y_min=0, x_max=0, y_max=0
+  Object: snap button
+  Location: center
+  Size: 0.5
+  Bounding Box: x_min=[595, 457, 625, 480], y_min=0, x_max=0, y_max=0
+  Object: adjustment strap
+  Location: right side
+  Size: 2.0
+  Bounding Box: x_min=[875, 363, 912, 428], y_min=0, x_max=0, y_max=0
+  Object: interior panel
+  Location: center
+  Size: 30.0
+  Bounding Box: x_min=[312, 205, 865, 650], y_min=0, x_max=0, y_max=0
+----------------------------------------------------------------------------------------------------
+Product ID: 40054730299
+Image Path: Pics/172116600299.jpg
+  Object: embroidered patch
+  Location: center
+  Size: 35%
+  Bounding Box: x_min=84, y_min=382, x_max=866, y_max=782
+  Object: baseball cap
+  Location: entire image
+  Size: 100%
+  Bounding Box: x_min=0, y_min=124, x_max=999, y_max=874
+----------------------------------------------------------------------------------------------------
+Product ID: 40016330299
+Image Path: Pics/178457210299.jpg
+  Object: Object
+  Location: Not specified
+  Size: Not specified
+  Bounding Box: x_min=0, y_min=0, x_max=0, y_max=0
+----------------------------------------------------------------------------------------------------
+Product ID: 40016330299
+Image Path: Pics/172361670299.jpg
+  Object: Object
+  Location: Not specified
+  Size: Not specified
+  Bounding Box: x_min=0, y_min=0, x_max=0, y_max=0
+----------------------------------------------------------------------------------------------------
+Product ID: 40016330299
+Image Path: Pics/172361680299.jpg
+  Object: black trucker hat
+  Location: center
+  Size: 45.0
+  Bounding Box: x_min=86, y_min=239, x_max=912, y_max=758
+----------------------------------------------------------------------------------------------------
+Product ID: 40016330299
+Image Path: Pics/172361690299.jpg
+  Object: baseball cap
+  Location: center
+  Size: 60
+  Bounding Box: x_min=84, y_min=191, x_max=914, y_max=807
+----------------------------------------------------------------------------------------------------
+Product ID: 40016330299
+Image Path: Pics/172361700299.jpg
+  Object: patch
+  Location: center
+  Size: 80
+  Bounding Box: x_min=73, y_min=180, x_max=900, y_max=809
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755730299.jpg
+Error: Local image file not found: Pics/196755730299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755740299.jpg
+Error: Local image file not found: Pics/196755740299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755750299.jpg
+Error: Local image file not found: Pics/196755750299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755760299.jpg
+Error: Local image file not found: Pics/196755760299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755770299.jpg
+Error: Local image file not found: Pics/196755770299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755790299.jpg
+Error: Local image file not found: Pics/196755790299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755810299.jpg
+Error: Local image file not found: Pics/196755810299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43358020299
+Image Path: Pics/196755820299.jpg
+Error: Local image file not found: Pics/196755820299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 34838390299
+Image Path: Pics/149670970299.jpg
+Error: Local image file not found: Pics/149670970299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/198512430299.jpg
+Error: Local image file not found: Pics/198512430299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/198512440299.jpg
+Error: Local image file not found: Pics/198512440299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/198512450299.jpg
+Error: Local image file not found: Pics/198512450299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/198512460299.jpg
+Error: Local image file not found: Pics/198512460299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/198512480299.jpg
+Error: Local image file not found: Pics/198512480299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/185845080299.jpg
+Error: Local image file not found: Pics/185845080299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/184920140299.jpg
+Error: Local image file not found: Pics/184920140299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 43603530299
+Image Path: Pics/177455030299.jpg
+Error: Local image file not found: Pics/177455030299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42351410299
+Image Path: Pics/188191750299.jpg
+Error: Local image file not found: Pics/188191750299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42351410299
+Image Path: Pics/188191760299.jpg
+Error: Local image file not found: Pics/188191760299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42351410299
+Image Path: Pics/188191770299.jpg
+Error: Local image file not found: Pics/188191770299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42351410299
+Image Path: Pics/188191780299.jpg
+Error: Local image file not found: Pics/188191780299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42351410299
+Image Path: Pics/184920140299.jpg
+Error: Local image file not found: Pics/184920140299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42351410299
+Image Path: Pics/177455030299.jpg
+Error: Local image file not found: Pics/177455030299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/204307040299.jpg
+Error: Local image file not found: Pics/204307040299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/204307050299.jpg
+Error: Local image file not found: Pics/204307050299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/204307060299.jpg
+Error: Local image file not found: Pics/204307060299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/204307070299.jpg
+Error: Local image file not found: Pics/204307070299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/204307080299.jpg
+Error: Local image file not found: Pics/204307080299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/204307090299.jpg
+Error: Local image file not found: Pics/204307090299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/185845080299.jpg
+Error: Local image file not found: Pics/185845080299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/184920140299.jpg
+Error: Local image file not found: Pics/184920140299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44077690299
+Image Path: Pics/177455030299.jpg
+Error: Local image file not found: Pics/177455030299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44014520299
+Image Path: Pics/204318090299.jpg
+Error: Local image file not found: Pics/204318090299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44014520299
+Image Path: Pics/204318100299.jpg
+Error: Local image file not found: Pics/204318100299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 44014520299
+Image Path: Pics/204318110299.jpg
+Error: Local image file not found: Pics/204318110299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/182379070299.jpg
+Error: Local image file not found: Pics/182379070299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/182379100299.jpg
+Error: Local image file not found: Pics/182379100299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/182379120299.jpg
+Error: Local image file not found: Pics/182379120299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/182379130299.jpg
+Error: Local image file not found: Pics/182379130299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/182379080299.jpg
+Error: Local image file not found: Pics/182379080299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/182379090299.jpg
+Error: Local image file not found: Pics/182379090299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/179597210299.jpg
+Error: Local image file not found: Pics/179597210299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/177455020299.jpg
+Error: Local image file not found: Pics/177455020299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 40917920299
+Image Path: Pics/177455030299.jpg
+Error: Local image file not found: Pics/177455030299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050460299.jpg
+Error: Local image file not found: Pics/167050460299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/173855390299.jpg
+Error: Local image file not found: Pics/173855390299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/173855400299.jpg
+Error: Local image file not found: Pics/173855400299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050450299.jpg
+Error: Local image file not found: Pics/167050450299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050400299.jpg
+Error: Local image file not found: Pics/167050400299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/173855410299.jpg
+Error: Local image file not found: Pics/173855410299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/173855430299.jpg
+Error: Local image file not found: Pics/173855430299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050470299.jpg
+Error: Local image file not found: Pics/167050470299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/173855420299.jpg
+Error: Local image file not found: Pics/173855420299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050480299.jpg
+Error: Local image file not found: Pics/167050480299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050430299.jpg
+Error: Local image file not found: Pics/167050430299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050510299.jpg
+Error: Local image file not found: Pics/167050510299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050420299.jpg
+Error: Local image file not found: Pics/167050420299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050410299.jpg
+Error: Local image file not found: Pics/167050410299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050490299.jpg
+Error: Local image file not found: Pics/167050490299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050500299.jpg
+Error: Local image file not found: Pics/167050500299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050520299.jpg
+Error: Local image file not found: Pics/167050520299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050530299.jpg
+Error: Local image file not found: Pics/167050530299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/167050440299.jpg
+Error: Local image file not found: Pics/167050440299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 33578610299
+Image Path: Pics/166287520299.jpg
+Error: Local image file not found: Pics/166287520299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42153320299
+Image Path: Pics/187826780299.jpg
+Error: Local image file not found: Pics/187826780299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42153320299
+Image Path: Pics/187826790299.jpg
+Error: Local image file not found: Pics/187826790299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42153320299
+Image Path: Pics/187826800299.jpg
+Error: Local image file not found: Pics/187826800299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42153320299
+Image Path: Pics/187826850299.jpg
+Error: Local image file not found: Pics/187826850299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42153320299
+Image Path: Pics/184920140299.jpg
+Error: Local image file not found: Pics/184920140299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42153320299
+Image Path: Pics/177455030299.jpg
+Error: Local image file not found: Pics/177455030299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188280299.jpg
+Error: Local image file not found: Pics/176188280299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/177421400299.jpg
+Error: Local image file not found: Pics/177421400299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188310299.jpg
+Error: Local image file not found: Pics/176188310299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/177421450299.jpg
+Error: Local image file not found: Pics/177421450299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188320299.jpg
+Error: Local image file not found: Pics/176188320299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/177421460299.jpg
+Error: Local image file not found: Pics/177421460299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/177421420299.jpg
+Error: Local image file not found: Pics/177421420299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188300299.jpg
+Error: Local image file not found: Pics/176188300299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/177421470299.jpg
+Error: Local image file not found: Pics/177421470299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/177421510299.jpg
+Error: Local image file not found: Pics/177421510299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188290299.jpg
+Error: Local image file not found: Pics/176188290299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188330299.jpg
+Error: Local image file not found: Pics/176188330299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/176188340299.jpg
+Error: Local image file not found: Pics/176188340299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/170564900299.jpg
+Error: Local image file not found: Pics/170564900299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35472730299
+Image Path: Pics/170564890299.jpg
+Error: Local image file not found: Pics/170564890299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109240299.jpg
+Error: Local image file not found: Pics/181109240299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/184083230299.jpg
+Error: Local image file not found: Pics/184083230299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109300299.jpg
+Error: Local image file not found: Pics/181109300299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/184083220299.jpg
+Error: Local image file not found: Pics/184083220299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/184083240299.jpg
+Error: Local image file not found: Pics/184083240299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109310299.jpg
+Error: Local image file not found: Pics/181109310299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109290299.jpg
+Error: Local image file not found: Pics/181109290299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109280299.jpg
+Error: Local image file not found: Pics/181109280299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109250299.jpg
+Error: Local image file not found: Pics/181109250299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109270299.jpg
+Error: Local image file not found: Pics/181109270299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109320299.jpg
+Error: Local image file not found: Pics/181109320299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/181109230299.jpg
+Error: Local image file not found: Pics/181109230299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 35950190299
+Image Path: Pics/180129440299.jpg
+Error: Local image file not found: Pics/180129440299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196580299.jpg
+Error: Local image file not found: Pics/188196580299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196590299.jpg
+Error: Local image file not found: Pics/188196590299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196600299.jpg
+Error: Local image file not found: Pics/188196600299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196610299.jpg
+Error: Local image file not found: Pics/188196610299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196620299.jpg
+Error: Local image file not found: Pics/188196620299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196640299.jpg
+Error: Local image file not found: Pics/188196640299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196650299.jpg
+Error: Local image file not found: Pics/188196650299.jpg
+----------------------------------------------------------------------------------------------------
+Product ID: 42310740299
+Image Path: Pics/188196660299.jpg
+Error: Local image file not found: Pics/188196660299.jpg
+----------------------------------------------------------------------------------------------------

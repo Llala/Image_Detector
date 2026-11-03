@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/evgeniya/Downloads/Telegram Desktop/**)",
+      "Bash(pip install *)",
+      "Bash(source *)",
+      "Bash(find *)",
+      "Bash(ls *)",
+      "Bash(python *)"
+    ]
+  },
+  "$version": 4
+}
