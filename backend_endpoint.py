@@ -191,6 +191,93 @@ class ImageDetector:
         except Exception as exc:
             return {"product_id": product_id, "image_path": image_path,
                     "error": f"Error occurred during object detection: {exc}"}
+    def process_selected_images(self, product_id, image_filenames):
+        """
+        Process specific images for a product
+        """
+        results = []
+        processed_count = 0
+        image_paths = []
+        
+        # Read images.csv to get image information
+        product_images = {}
+        try:
+            # Using utf-8-sig to handle BOM in CSV files
+            with open("images.csv", 'r', encoding='utf-8-sig') as f:
+                reader = csv.DictReader(f)
+                for row in reader:
+                    image_product_id = row['product_id']
+                    if image_product_id not in product_images:
+                        product_images[image_product_id] = []
+                    product_images[image_product_id].append({
+                        'order': int(row['image_order']),
+                        'url': row['image_url'],
+                        'filename': row['image_url'].split('/')[-1]
+                    })
+        except Exception as e:
+            return {"error": f"Error reading images.csv: {str(e)}"}
+
+        if product_id in product_images:
+            # Get all images for this product
+            all_product_images = sorted(product_images[product_id], key=lambda x: x['order'])
+            
+            # Find selected images by filename
+            selected_images = []
+            for img_info in all_product_images:
+                if img_info['filename'] in image_filenames:
+                    selected_images.append(img_info)
+            
+            # Process selected images
+            for img_info in selected_images:
+                # Extract filename from image_url (last part after /)
+                image_filename = img_info['filename']
+                image_path = os.path.join("Pics", image_filename)
+                image_paths.append(image_path)
+
+                # Check if file exists
+                if os.path.exists(image_path):
+                    # Process the local image file with Qwen model
+                    result = self.detect_objects(image_path, product_id)
+                    results.append(result)
+                    processed_count += 1
+                else:
+                    results.append({
+                        "product_id": product_id,
+                        "image_path": image_path,
+                        "error": f"Image file not found: {image_path}"
+                    })
+        else:
+            # Если продукт не найден в images.csv, но есть в products.csv
+            # Проверим, есть ли файлы в Pics с соответствующим префиксом
+            # Поиск файлов в Pics, которые могут быть связаны с этим product_id
+            pics_files = []
+            for filename in os.listdir("Pics"):
+                if filename.startswith(product_id) and filename in image_filenames:
+                    pics_files.append(filename)
+
+            # Если найдены файлы в Pics, попробуем обработать их
+            if pics_files:
+                for filename in sorted(pics_files):
+                    image_path = os.path.join("Pics", filename)
+                    result = self.detect_objects(image_path, product_id)
+                    results.append(result)
+                    processed_count += 1
+                    image_paths.append(image_path)
+
+        # Формируем финальный ответ с объектами
+        features = []
+        for result in results:
+            if 'objects' in result:
+                features.append(result['objects'])
+            else:
+                features.append([])  # Пустой массив для случая ошибки
+        return {
+            "product_id": product_id,
+            "images_processed": processed_count,
+            "image_paths": image_paths,
+            "features": features  # Возвращаем как массив массивов объектов
+        }
+
 
     def process_product_images(self, product_id):
         """
@@ -400,6 +487,42 @@ def serve_image(filename):
 
     except Exception as e:
         return jsonify({"error": f"Error serving image: {str(e)}"}), 500
+
+   
+@app.route('/analyze-selected-images', methods=['POST'])
+def analyze_selected_images():
+    """
+    Endpoint to analyze specific images for a product and return object features with bounding boxes
+    """
+    try:
+        # Get data from request
+        data = request.get_json()
+        product_id = data.get('product_id')
+        image_filenames = data.get('image_filenames', [])
+
+        if not product_id:
+            return jsonify({"error": "Product ID is required"}), 400
+
+        if not image_filenames:
+            return jsonify({"error": "At least one image filename is required"}), 400
+
+        # Process selected images for the product
+        result = detector.process_selected_images(product_id, image_filenames)
+
+        if "error" in result:
+            return jsonify(result), 500
+
+        # Return success response
+        return jsonify({
+            "status": "success",
+            "product_id": result["product_id"],
+            "images_processed": result["images_processed"],
+            "image_paths": result["image_paths"],
+            "features": result["features"]
+        })
+
+    except Exception as e:
+        return jsonify({"error": f"Error processing request: {str(e)}"}), 500
 
 @app.route('/health', methods=['GET'])
 def health_check():
