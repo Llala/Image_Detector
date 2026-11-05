@@ -309,24 +309,30 @@ function App() {
         </div>
 
         {/* Отображаем информацию об объектах под изображением */}
-        {imageFeatures && imageFeatures.length > 0 && (
+      
+       {imageFeatures && imageFeatures.length > 0 && (
           <div className="object-details">
             <h4>Detected Objects:</h4>
+
             {imageFeatures.map((obj, objIndex) => (
               <div key={objIndex} className="object-detail-item">
-                <p><strong>Object {objIndex + 1}:</strong> {obj.name}</p>
-                <p><strong>Description:</strong> {obj.description}</p>
-                <p><strong>Bounding Box:</strong></p>
-                <ul>
-                  <li>x_min: {obj.bbox?.x_min}</li>
-                  <li>y_min: {obj.bbox?.y_min}</li>
-                  <li>x_max: {obj.bbox?.x_max}</li>
-                  <li>y_max: {obj.bbox?.y_max}</li>
-                </ul>
+                <p><strong>Object:</strong> {obj.name}</p>
+
+                {obj.highlights?.map((highlight, highlightIndex) => (
+                  <div key={highlightIndex}>
+                    <p><strong>Highlight:</strong> {highlight.name}</p>
+                    <p><strong>Description:</strong> {highlight.description}</p>
+                    <p>
+                      <strong>Bounding Box:</strong>{' '}
+                      {JSON.stringify(highlight.bbox)}
+                    </p>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
         )}
+        
       </div>
     );
   };
@@ -380,17 +386,22 @@ function App() {
               </button>
             </div>
 
-            <div className="images-grid">
-              <h3>Product Images</h3>
               {imagesData.images?.map((img, index) => {
-                // Получаем данные для конкретного изображения (находим соответствующую запись в results)
-                let imageFeatures = null;
-                if (results && results.features && results.features[index]) {
-                  imageFeatures = results.features[index];
+                let imageFeatures = [];
+
+                if (results?.image_paths && results?.features) {
+                  const resultIndex = results.image_paths.findIndex(
+                    path => path.split('/').pop() === img.filename
+                  );
+
+                  if (resultIndex !== -1) {
+                    imageFeatures = results.features[resultIndex] || [];
+                  }
                 }
+
                 return (
                   <ImageViewWithDetails
-                    key={index}
+                    key={img.filename}
                     imageInfo={img}
                     imageFeatures={imageFeatures}
                     index={index}
@@ -398,7 +409,7 @@ function App() {
                 );
               })}
             </div>
-          </div>
+          
         )}
 
         {results && (

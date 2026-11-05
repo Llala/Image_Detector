@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+"""
+Backend endpoint for image detection and analysis - FINAL CORRECTED VERSION
+"""
+
 import os
 import sys
 import csv
@@ -9,12 +14,12 @@ from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from dotenv import load_dotenv
 from openai import OpenAI
-
 # Load environment variables
 load_dotenv()
 
+# Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Добавляем поддержку CORS
+CORS(app)  # Enable CORS for all routes
 
 PROMPT = """
 You are a visual product analysis assistant.
@@ -46,9 +51,6 @@ Instructions:
 7. Do not include background objects.
 8. If no highlights are found, return an empty array.
 9. Return ONLY valid JSON, without markdown.
-10. bbox MUST be an array of EXACTLY four numbers: [x_min, y_min, x_max, y_max].
-11. Never put an array inside a coordinate key such as x_min.
-12. Keep descriptions short (under 15 words) and return at most 6 highlights.
 
 JSON format:
 {
@@ -59,7 +61,12 @@ JSON format:
         {
           "name": "feature_name",
           "description": "feature_description",
-          "bbox": [100, 200, 300, 400]
+          "bbox": {
+            "x_min": 0,
+            "y_min": 0,
+            "x_max": 0,
+            "y_max": 0
+          }
         }
       ]
     }
@@ -74,7 +81,30 @@ Coordinate rules:
 - All coordinates must be between 0 and 1000.
 """
 
-
+# Mock implementation of the ImageDetector class
+# class ImageDetector:
+#     def __init__(self):
+#         pass
+    
+#     def process_selected_images(self, product_id, image_filenames):
+#         """
+#         Process selected images for a product and return object features
+#         """
+#         try:
+#             # Return mock results to demonstrate the fix
+#             results = {
+#                 "product_id": product_id,
+#                 "images_processed": len(image_filenames),
+#                 "image_paths": image_filenames,
+#                 "features": [
+#                     {"features": [["object1", "desc1", [100, 200, 300, 400]]]} for _ in image_filenames
+#                 ]
+#             }
+            
+#             return results
+            
+#         except Exception as e:
+#             return {"error": str(e)}
 class ImageDetector:
     def __init__(self):
         # Initialize OpenAI client with OpenRouter
@@ -238,6 +268,19 @@ class ImageDetector:
                 if os.path.exists(image_path):
                     # Process the local image file with Qwen model
                     result = self.detect_objects(image_path, product_id)
+
+                    print(
+                        "RAW DETECTION RESULT:",
+                        json.dumps(result, ensure_ascii=False, indent=2),
+                        flush=True
+                    )
+
+                    print(f"\n=== IMAGE: {image_path} ===", flush=True)
+                    print(
+                        json.dumps(result, indent=2, ensure_ascii=False),
+                        flush=True
+                    )
+
                     results.append(result)
                     processed_count += 1
                 else:
@@ -260,24 +303,43 @@ class ImageDetector:
                 for filename in sorted(pics_files):
                     image_path = os.path.join("Pics", filename)
                     result = self.detect_objects(image_path, product_id)
+                    print(
+                        "RAW DETECTION RESULT:",
+                        json.dumps(result, ensure_ascii=False, indent=2),
+                        flush=True
+                    )
                     results.append(result)
                     processed_count += 1
                     image_paths.append(image_path)
 
         # Формируем финальный ответ с объектами
-        features = []
-        for result in results:
-            if 'objects' in result:
-                features.append(result['objects'])
-            else:
-                features.append([])  # Пустой массив для случая ошибки
+        # features = []
+        # for result in results:
+        #     if 'objects' in result:
+        #         features.append(result['objects'])
+        #     else:
+        #         features.append([])  # Пустой массив для случая ошибки
+
+        features = [
+            result.get("objects", [])
+            for result in results
+        ]
+
+        errors = [
+            {
+                "image_path": result.get("image_path"),
+                "error": result["error"]
+            }
+            for result in results
+            if "error" in result
+        ]
         return {
+            "errors": errors,
             "product_id": product_id,
             "images_processed": processed_count,
             "image_paths": image_paths,
             "features": features  # Возвращаем как массив массивов объектов
         }
-
 
     def process_product_images(self, product_id):
         """
@@ -333,6 +395,11 @@ class ImageDetector:
                 if os.path.exists(image_path):
                     # Process the local image file with Qwen model
                     result = self.detect_objects(image_path, product_id)
+                    print(
+                        "RAW DETECTION RESULT:",
+                        json.dumps(result, ensure_ascii=False, indent=2),
+                        flush=True
+                    )
                     results.append(result)
                     processed_count += 1
                 else:
@@ -356,6 +423,11 @@ class ImageDetector:
                 for filename in sorted(pics_files):
                     image_path = os.path.join("Pics", filename)
                     result = self.detect_objects(image_path, product_id)
+                    print(
+                        "RAW DETECTION RESULT:",
+                        json.dumps(result, ensure_ascii=False, indent=2),
+                        flush=True
+                    )
                     results.append(result)
                     processed_count += 1
                     image_paths.append(image_path)
@@ -363,18 +435,130 @@ class ImageDetector:
         # Формируем финальный ответ с объектами
         # Сохраняем структуру, которая ожидается фронтендом:
         # features: [[obj1, obj2], [obj3, obj4]] где каждый внутренний массив соответствует одному изображению
-        features = []
-        for result in results:
-            if 'objects' in result:
-                features.append(result['objects'])
-            else:
-                features.append([])  # Пустой массив для случая ошибки
+        features = [
+            result.get("objects", [])
+            for result in results
+        ]
         return {
             "product_id": product_id,
             "images_processed": processed_count,
             "image_paths": image_paths,
             "features": features  # Возвращаем как массив массивов объектов
         }
+    # def process_product_images(self, product_id):
+    #     """
+    #     Process all images associated with a product
+    #     """
+    #     # Read products.csv to get product information
+    #     products = {}
+    #     try:
+    #         # Using utf-8-sig to handle BOM in CSV files
+    #         with open("products.csv", 'r', encoding='utf-8-sig') as f:
+    #             reader = csv.DictReader(f)
+    #             for row in reader:
+    #                 products[row['product_id']] = {
+    #                     'name': row['name'],
+    #                     'description': row['description']
+    #                 }
+    #     except Exception as e:
+    #         return {"error": f"Error reading products.csv: {str(e)}"}
+
+    #     # Read images.csv to get image information
+    #     product_images = {}
+    #     try:
+    #         # Using utf-8-sig to handle BOM in CSV files
+    #         with open("images.csv", 'r', encoding='utf-8-sig') as f:
+    #             reader = csv.DictReader(f)
+    #             for row in reader:
+    #                 image_product_id = row['product_id']
+    #                 if image_product_id not in product_images:
+    #                     product_images[image_product_id] = []
+    #                 product_images[image_product_id].append({
+    #                     'order': int(row['image_order']),
+    #                     'url': row['image_url']
+    #                 })
+    #     except Exception as e:
+    #         return {"error": f"Error reading images.csv: {str(e)}"}
+
+    #     # Process images for the specific product
+    #     results = []
+    #     processed_count = 0
+    #     image_paths = []
+
+    #     if product_id in product_images:
+    #         images = sorted(product_images[product_id], key=lambda x: x['order'])
+
+    #         # Process all images
+    #         for img_info in images:
+    #             # Extract filename from image_url (last part after /)
+    #             image_filename = img_info['url'].split('/')[-1]
+    #             image_path = os.path.join("Pics", image_filename)
+    #             image_paths.append(image_path)
+
+    #             # Check if file exists
+    #             if os.path.exists(image_path):
+    #                 # Process the local image file with Qwen model
+    #                 result = self.detect_objects(image_path, product_id)
+    #                 results.append(result)
+    #                 processed_count += 1
+    #             else:
+    #                 # File doesn't exist, return error
+    #                 results.append({
+    #                     "product_id": product_id,
+    #                     "image_path": image_path,
+    #                     "error": f"Image file not found: {image_path}"
+    #                 })
+    #     else:
+    #         # Если продукт не найден в images.csv, но есть в products.csv
+    #         # Проверим, есть ли файлы в Pics с соответствующим префиксом
+    #         # Поиск файлов в Pics, которые могут быть связаны с этим product_id
+    #         pics_files = []
+    #         for filename in os.listdir("Pics"):
+    #             if filename.startswith(product_id):
+    #                 pics_files.append(filename)
+
+    #         # Если найдены файлы в Pics, попробуем обработать их
+    #         if pics_files:
+    #             for filename in sorted(pics_files):
+    #                 image_path = os.path.join("Pics", filename)
+    #                 result = self.detect_objects(image_path, product_id)
+    #                 results.append(result)
+    #                 processed_count += 1
+    #                 image_paths.append(image_path)
+
+    #     # Формируем финальный ответ с объектами
+    #     # Сохраняем структуру, которая ожидается фронтендом:
+    #     # features: [[obj1, obj2], [obj3, obj4]] где каждый внутренний массив соответствует одному изображению
+    #     features = []
+
+    #     for result in results:
+    #         image_features = []
+
+    #         for obj in result.get("objects", []):
+    #             for highlight in obj.get("highlights", []):
+    #                 bbox = highlight["bbox"]
+
+    #                 image_features.append([
+    #                     highlight["name"],
+    #                     highlight["description"],
+    #                     [
+    #                         bbox["x_min"],
+    #                         bbox["y_min"],
+    #                         bbox["x_max"],
+    #                         bbox["y_max"]
+    #                     ]
+    #                 ])
+
+    #         features.append({
+    #             "features": image_features
+    #         })
+
+    #     return {
+    #         "product_id": product_id,
+    #         "images_processed": processed_count,
+    #         "image_paths": image_paths,
+    #         "features": features
+    #     }
 
     def get_product_images(self, product_id):
         """Get a list of available images for a product"""
@@ -420,14 +604,54 @@ class ImageDetector:
                 "images": []
             }
 
-# Create detector instance
+# Create instance of the detector
 detector = ImageDetector()
+
+# Serve static files (for the React app, if needed)
+@app.route('/')
+def serve_index():
+    return "<h1>Image Detection Backend</h1><p>This is the backend API for image detection application.</p>"
+
+@app.route('/product-images/<product_id>', methods=['GET'])
+def get_product_images(product_id):
+    """
+    Endpoint to get list of available images for a product
+    """
+    try:
+        result = detector.get_product_images(product_id)
+        return jsonify(result)
+    except Exception as e:
+        return jsonify({"error": f"Error fetching images: {str(e)}"}), 500
+
+# @app.route('/analyze-product', methods=['POST'])
+# def analyze_product():
+#     try:
+#         data = request.get_json(silent=True) or {}
+#         product_id = data.get('product_id')
+
+#         if not product_id:
+#             return jsonify({
+#                 "error": "Product ID is required"
+#             }), 400
+
+#         result = detector.process_product_images(product_id)
+
+#         if "error" in result:
+#             return jsonify(result), 500
+
+#         return jsonify(result), 200
+
+#     except Exception as e:
+#         app.logger.exception("Analysis failed")
+#         return jsonify({"error": str(e)}), 500
 
 @app.route('/analyze-product', methods=['POST'])
 def analyze_product():
     """
     Endpoint to analyze images for a specific product and return object features with bounding boxes
     """
+    print("=== ANALYZE PRODUCT CALLED ===", flush=True)
+    print("FILE:", __file__, flush=True)
     try:
         # Get product ID from request
         data = request.get_json()
@@ -454,45 +678,11 @@ def analyze_product():
     except Exception as e:
         return jsonify({"error": f"Error processing request: {str(e)}"}), 500
 
-@app.route('/product-images/<product_id>', methods=['GET'])
-def get_product_images(product_id):
-    """
-    Endpoint to get list of available images for a product
-    """
-    try:
-        result = detector.get_product_images(product_id)
-        return jsonify(result)
-    except Exception as e:
-        return jsonify({"error": f"Error fetching images: {str(e)}"}), 500
-
-@app.route('/images/<path:filename>', methods=['GET'])
-def serve_image(filename):
-    """
-    Serve image files from Pics directory
-    """
-    try:
-        # Construct full path to the image in Pics folder
-        image_path = os.path.join("Pics", filename)
-
-        # Check if the file exists and is within the Pics directory
-        if not os.path.exists(image_path):
-            return jsonify({"error": "Image not found"}), 404
-
-        # Verify the path is within Pics directory (security check)
-        if not os.path.abspath(image_path).startswith(os.path.abspath("Pics")):
-            return jsonify({"error": "Invalid path"}), 400
-
-        # Serve the file
-        return send_file(image_path)
-
-    except Exception as e:
-        return jsonify({"error": f"Error serving image: {str(e)}"}), 500
-
-   
 @app.route('/analyze-selected-images', methods=['POST'])
 def analyze_selected_images():
     """
     Endpoint to analyze specific images for a product and return object features with bounding boxes
+    FIXED VERSION - Properly associates results with their images while maintaining backward compatibility
     """
     try:
         # Get data from request
@@ -512,22 +702,49 @@ def analyze_selected_images():
         if "error" in result:
             return jsonify(result), 500
 
-        # Return success response
-        return jsonify({
+        # Return success response but with improved mapping capability
+        # We preserve the original data structure but also provide mapping information
+        response_data = {
             "status": "success",
             "product_id": result["product_id"],
             "images_processed": result["images_processed"],
             "image_paths": result["image_paths"],
-            "features": result["features"]
-        })
+            "features": result["features"]  # Original features structure to avoid breaking frontend
+        }
+        
+        # Add mapping information to facilitate correct image-to-results linkage in frontend
+        # This will be used by frontend to properly associate results with images
+        response_data["image_mapping"] = {}
+        for i, filename in enumerate(result["image_paths"]):
+            response_data["image_mapping"][filename] = i
+            
+        return jsonify(response_data)
 
     except Exception as e:
         return jsonify({"error": f"Error processing request: {str(e)}"}), 500
 
-@app.route('/health', methods=['GET'])
-def health_check():
-    """Health check endpoint"""
-    return jsonify({"status": "healthy"}), 200
+@app.route('/images/<filename>')
+def serve_image(filename):
+    """
+    Serve image files from Pics directory
+    """
+    try:
+        # Security check to ensure file is in Pics directory
+        pics_dir = 'Pics'
+        file_path = os.path.join(pics_dir, filename)
+        
+        # Ensure the file exists and is within Pics directory
+        if not os.path.exists(file_path):
+            return jsonify({"error": "Image not found"}), 404
+            
+        if not os.path.abspath(file_path).startswith(os.path.abspath(pics_dir)):
+            return jsonify({"error": "Access denied"}), 403
+            
+        # Serve the file
+        return send_file(file_path)
+        
+    except Exception as e:
+        return jsonify({"error": f"Error serving image: {str(e)}"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5003)
+    app.run(host='0.0.0.0', port=5003, debug=True)
