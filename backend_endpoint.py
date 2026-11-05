@@ -81,30 +81,6 @@ Coordinate rules:
 - All coordinates must be between 0 and 1000.
 """
 
-# Mock implementation of the ImageDetector class
-# class ImageDetector:
-#     def __init__(self):
-#         pass
-    
-#     def process_selected_images(self, product_id, image_filenames):
-#         """
-#         Process selected images for a product and return object features
-#         """
-#         try:
-#             # Return mock results to demonstrate the fix
-#             results = {
-#                 "product_id": product_id,
-#                 "images_processed": len(image_filenames),
-#                 "image_paths": image_filenames,
-#                 "features": [
-#                     {"features": [["object1", "desc1", [100, 200, 300, 400]]]} for _ in image_filenames
-#                 ]
-#             }
-            
-#             return results
-            
-#         except Exception as e:
-#             return {"error": str(e)}
 class ImageDetector:
     def __init__(self):
         # Initialize OpenAI client with OpenRouter
@@ -313,12 +289,6 @@ class ImageDetector:
                     image_paths.append(image_path)
 
         # Формируем финальный ответ с объектами
-        # features = []
-        # for result in results:
-        #     if 'objects' in result:
-        #         features.append(result['objects'])
-        #     else:
-        #         features.append([])  # Пустой массив для случая ошибки
 
         features = [
             result.get("objects", [])
@@ -445,121 +415,7 @@ class ImageDetector:
             "image_paths": image_paths,
             "features": features  # Возвращаем как массив массивов объектов
         }
-    # def process_product_images(self, product_id):
-    #     """
-    #     Process all images associated with a product
-    #     """
-    #     # Read products.csv to get product information
-    #     products = {}
-    #     try:
-    #         # Using utf-8-sig to handle BOM in CSV files
-    #         with open("products.csv", 'r', encoding='utf-8-sig') as f:
-    #             reader = csv.DictReader(f)
-    #             for row in reader:
-    #                 products[row['product_id']] = {
-    #                     'name': row['name'],
-    #                     'description': row['description']
-    #                 }
-    #     except Exception as e:
-    #         return {"error": f"Error reading products.csv: {str(e)}"}
-
-    #     # Read images.csv to get image information
-    #     product_images = {}
-    #     try:
-    #         # Using utf-8-sig to handle BOM in CSV files
-    #         with open("images.csv", 'r', encoding='utf-8-sig') as f:
-    #             reader = csv.DictReader(f)
-    #             for row in reader:
-    #                 image_product_id = row['product_id']
-    #                 if image_product_id not in product_images:
-    #                     product_images[image_product_id] = []
-    #                 product_images[image_product_id].append({
-    #                     'order': int(row['image_order']),
-    #                     'url': row['image_url']
-    #                 })
-    #     except Exception as e:
-    #         return {"error": f"Error reading images.csv: {str(e)}"}
-
-    #     # Process images for the specific product
-    #     results = []
-    #     processed_count = 0
-    #     image_paths = []
-
-    #     if product_id in product_images:
-    #         images = sorted(product_images[product_id], key=lambda x: x['order'])
-
-    #         # Process all images
-    #         for img_info in images:
-    #             # Extract filename from image_url (last part after /)
-    #             image_filename = img_info['url'].split('/')[-1]
-    #             image_path = os.path.join("Pics", image_filename)
-    #             image_paths.append(image_path)
-
-    #             # Check if file exists
-    #             if os.path.exists(image_path):
-    #                 # Process the local image file with Qwen model
-    #                 result = self.detect_objects(image_path, product_id)
-    #                 results.append(result)
-    #                 processed_count += 1
-    #             else:
-    #                 # File doesn't exist, return error
-    #                 results.append({
-    #                     "product_id": product_id,
-    #                     "image_path": image_path,
-    #                     "error": f"Image file not found: {image_path}"
-    #                 })
-    #     else:
-    #         # Если продукт не найден в images.csv, но есть в products.csv
-    #         # Проверим, есть ли файлы в Pics с соответствующим префиксом
-    #         # Поиск файлов в Pics, которые могут быть связаны с этим product_id
-    #         pics_files = []
-    #         for filename in os.listdir("Pics"):
-    #             if filename.startswith(product_id):
-    #                 pics_files.append(filename)
-
-    #         # Если найдены файлы в Pics, попробуем обработать их
-    #         if pics_files:
-    #             for filename in sorted(pics_files):
-    #                 image_path = os.path.join("Pics", filename)
-    #                 result = self.detect_objects(image_path, product_id)
-    #                 results.append(result)
-    #                 processed_count += 1
-    #                 image_paths.append(image_path)
-
-    #     # Формируем финальный ответ с объектами
-    #     # Сохраняем структуру, которая ожидается фронтендом:
-    #     # features: [[obj1, obj2], [obj3, obj4]] где каждый внутренний массив соответствует одному изображению
-    #     features = []
-
-    #     for result in results:
-    #         image_features = []
-
-    #         for obj in result.get("objects", []):
-    #             for highlight in obj.get("highlights", []):
-    #                 bbox = highlight["bbox"]
-
-    #                 image_features.append([
-    #                     highlight["name"],
-    #                     highlight["description"],
-    #                     [
-    #                         bbox["x_min"],
-    #                         bbox["y_min"],
-    #                         bbox["x_max"],
-    #                         bbox["y_max"]
-    #                     ]
-    #                 ])
-
-    #         features.append({
-    #             "features": image_features
-    #         })
-
-    #     return {
-    #         "product_id": product_id,
-    #         "images_processed": processed_count,
-    #         "image_paths": image_paths,
-    #         "features": features
-    #     }
-
+    
     def get_product_images(self, product_id):
         """Get a list of available images for a product"""
         # Read images.csv to get image information
@@ -622,28 +478,6 @@ def get_product_images(product_id):
         return jsonify(result)
     except Exception as e:
         return jsonify({"error": f"Error fetching images: {str(e)}"}), 500
-
-# @app.route('/analyze-product', methods=['POST'])
-# def analyze_product():
-#     try:
-#         data = request.get_json(silent=True) or {}
-#         product_id = data.get('product_id')
-
-#         if not product_id:
-#             return jsonify({
-#                 "error": "Product ID is required"
-#             }), 400
-
-#         result = detector.process_product_images(product_id)
-
-#         if "error" in result:
-#             return jsonify(result), 500
-
-#         return jsonify(result), 200
-
-#     except Exception as e:
-#         app.logger.exception("Analysis failed")
-#         return jsonify({"error": str(e)}), 500
 
 @app.route('/analyze-product', methods=['POST'])
 def analyze_product():
