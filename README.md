@@ -1,19 +1,40 @@
-# Image Detection System with Qwen/VL-235B-A22B-instruct
+# Система распознавания изображений с использованием Qwen/VL-235B-A22B-instruct
 
-This system implements image detection using the Qwen/VL-235B-A22B-instruct model through OpenRouter API. It allows for object detection in product images and returns bounding box coordinates for detected objects.
+Эта система реализует распознавание изображений с использованием модели Qwen/VL-235B-A22B-instruct через API OpenRouter. Она позволяет осуществлять обнаружение объектов на изображениях товаров и возвращать координаты ограничивающих рамок для обнаруженных объектов.
 
-## Features
+## Разделение работы между мной и нейросетью
+1. Я проектирую API, выбираю технологии для проекта
+2. Составляю промпт для мультимодальной модели.
+3. Осуществляю дебаггинг и проверку существующего кода.
+4. Задаю модели пошаговую инструкцию для разработки.
+5. Проверяю код.
 
-- **Image detection** using Qwen/VL-235B-A22B-instruct model
-- **Bounding box coordinates** for detected objects (x_min, y_min, x_max, y_max)  
-- **Local image processing** (no remote image downloads)
-- **CSV integration** for product and image data
-- **Image serving capability** via `/images/<filename>` endpoint
-- **CORS support** for frontend integration
+## Про репозиторий
 
-## API Endpoints
+Рабочая версия расположена в ветке main
 
-### 1. Analyze Product
+## Функции
+
+- **Распознавание изображений** с использованием модели Qwen/VL-235B-A22B-instruct
+- **Координаты ограничивающих рамок** для обнаруженных объектов (x_min, y_min, x_max, y_max)
+- **Локальная обработка изображений** (без загрузки изображений из сети)
+- **Интеграция с CSV** для данных о продуктах и изображениях
+- **Возможность предоставления изображений** через endpoint `/images/<filename>`
+- **Поддержка CORS** для интеграции с фронтендом
+
+##  Папка Pics
+
+В  папке Pics лежат изображения товаров с артикулами: 39506410299, 40054730299, 40016330299
+
+## Пользовательский путь
+
+1. Ввести арткул
+2. Нажать кнопку Analyze
+3. Дождаться появления картинок с выделенными особенностями.
+
+## API Эндпоинты
+
+### 1. Анализ продукта
 ```
 POST /analyze-product
 {
@@ -21,97 +42,97 @@ POST /analyze-product
 }
 ```
 
-Returns object detection results with bounding box coordinates.
+Возвращает результаты обнаружения объектов с координатами ограничивающих рамок.
 
-### 2. Get Product Images
+### 2. Получение изображений продукта
 ```
 GET /product-images/{product_id}
 ```
 
-Returns list of available images for a product.
+Возвращает список доступных изображений для продукта.
 
-### 3. Serve Image Files
+### 3. Предоставление файлов изображений
 ```
 GET /images/{filename}
 ```
 
-Serves image files from the Pics directory. For example: `/images/175336730299.jpg`
+Предоставляет файлы изображений из директории Pics. Например: `/images/175336730299.jpg`
 
-## File Structure
+## Структура файлов
 
-- `Pics/` - Directory containing product images  
-- `products.csv` - Product information
-- `images.csv` - Image associations with products
-- `requirements.txt` - Python dependencies
-- `backend_endpoint.py` - Flask backend with image serving capability
-- `src/App.js` - React frontend (if applicable)
+- `Pics/` - Директория, содержащая изображения продуктов
+- `products.csv` - Информация о продуктах
+- `images.csv` - Связи изображений с продуктами
+- `requirements.txt` - Зависимости Python
+- `backend_endpoint.py` - Flask бэкенд с возможностью предоставления изображений
+- `src/App.js` - React фронтенд (если применимо)
 
-## Setup and Usage
+## Установка и использование
 
-### 1. Backend Setup
+### 1. Настройка бэкенда
 
-1. Create a `.env` file with your OpenRouter API key:
+1. Создайте файл `.env` с вашим API ключом OpenRouter:
 ```
-OPENROUTER_API_KEY=your_api_key_here
+OPENROUTER_API_KEY=ваш_api_ключ_здесь
 ```
 
-2. Install requirements:
+2. Установите зависимости:
 ```bash
 pip install -r requirements.txt
 ```
 
-3. Run the backend server:
+3. Запустите сервер бэкенда:
 ```bash
 python backend_endpoint.py
 ```
 
-### 2. Frontend Setup (React Application)
+### 2. Настройка фронтенда (React приложение)
 
-If you want to run the React frontend, first ensure all dependencies are installed:
+Если вы хотите запустить React фронтенд, сначала убедитесь, что все зависимости установлены:
 ```bash
 npm install react react-dom react-scripts
 ```
 
-Then run:
+Затем запустите:
 ```bash
 npm start
 ```
 
-The frontend will be available at `http://localhost:3000`
+Фронтенд будет доступен по адресу `http://localhost:3000`
 
-### 3. Static HTML Frontend
+### 3. Статический HTML фронтенд
 
-For the HTML version, simply run:
+Для версии HTML просто выполните:
 ```bash
 python3 -m http.server 8083
 ```
 
-The HTML frontend will be available at `http://localhost:8083/index.html`
+HTML фронтенд будет доступен по адресу `http://localhost:8083/index.html`
 
-## Using Image URLs
+## Использование URL изображений
 
-The system provides direct URLs to images in the Pics folder:
+Система предоставляет прямые URL к изображениям в директории Pics:
 ```
-http://localhost:5002/images/175336730299.jpg
-http://localhost:5002/images/175336740299.jpg
+http://localhost:5003/images/175336730299.jpg
+http://localhost:5003/images/175336740299.jpg
 ```
 
-## Example API Usage
+## Пример использования API
 
 ```bash
-# Get product image list
+# Получить список изображений продукта
 curl http://localhost:5002/product-images/39506410299
 
-# Analyze product
+# Проанализировать продукт
 curl -X POST http://localhost:5002/analyze-product \
   -H "Content-Type: application/json" \
   -d '{"product_id": "39506410299"}'
 
-# Serve an image
+# Предоставить изображение
 curl http://localhost:5002/images/175336730299.jpg
 ```
 
-## Requirements
+## Требования
 
 - Python 3.7+
 - Flask
@@ -120,69 +141,98 @@ curl http://localhost:5002/images/175336730299.jpg
 - requests
 - python-dotenv
 
-## Running the System
+## Запуск системы
 
-### Backend Server
-1. Start the backend server:
+### Через Docker Compose
+0. Запустите:
+```bash
+docker compose up
+```
+
+
+### Сервер бэкенда
+1. Запустите сервер бэкенда:
 ```bash
 python3 backend_endpoint.py
 ```
 
-2. The backend will serve on port 5002.
+2. Бэкенд будет работать на порту 5002.
 
-### Frontend Server
+### Сервер фронтенда
 
-#### For React Application:
-1. Install dependencies:
+#### Для React приложения:
+1. Установите зависимости:
 ```bash
 npm install
 ```
-2. Run the React app:
+2. Запустите React приложение:
 ```bash
 npm start
 ```
 
-#### For Static HTML:
-1. Run HTTP server:
+#### Для статического HTML:
+1. Запустите HTTP сервер:
 ```bash
-python3 -m http.server 8083
+python3 -m http.server 8084
 ```
 
-## Complete Workflow
+## Полный рабочий процесс
 
-1. **Backend** on port 5002 handles all API requests:
-   - `/analyze-product` - analyzes images
-   - `/product-images/{product_id}` - gets image lists
-   - `/images/{filename}` - serves images
+1. **Бэкенд** на порту 5003 обрабатывает все API запросы:
+   - `/analyze-product` - анализирует изображения
+   - `/product-images/{product_id}` - получает списки изображений
+   - `/images/{filename}` - предоставляет изображения
 
-2. **Frontend** (React or HTML) makes requests to backend:
-   - Gets product information and image files
-   - Receives object detection results with bounding box coordinates
+2. **Фронтенд** (React или HTML) отправляет запросы бэкенду:
+   - Получает информацию о продуктах и файлы изображений
+   - Получает результаты обнаружения объектов с координатами ограничивающих рамок
 
-3. **Result**:
-   - Real product images served via URL
-   - Coordinates for object positions in images
-   - Complete analysis workflow
+3. **Результат**:
+   - Реальные изображения продуктов предоставляются по URL
+   - Координаты для позиций объектов на изображениях
+   - Полный рабочий процесс анализа
 
-## Security Notes
+## Примечания по безопасности
 
-The image serving endpoint:
-- Validates file paths to prevent directory traversal
-- Only serves files from the Pics directory
-- Includes proper error handling for missing files
+Эндпоинт предоставления изображений:
+- Проводит валидацию путей файлов для предотвращения обхода каталогов
+- Предоставляет только файлы из директории Pics
+- Включает правильную обработку ошибок для отсутствующих файлов
 
-## Future Improvements
+## Потенциальные улучшения
+- Добавить возможность выбора изображений для анализа
+- Добавить возможности предварительной обработки изображений
+- Реализовать пакетную обработку с лучшей регулировкой скорости
+- Добавить поддержку разных версий моделей
+- Включить оценки уверенности для обнаружений
+- Добавить поддержку сохранения результатов обнаружения в структурированных форматах
 
-- Add image preprocessing capabilities
-- Implement batch processing with better throttling
-- Add support for different model versions
-- Include confidence scores for detections
-- Add support for saving detection results in structured formats
+## Ограничения и соображения
 
-## Limitations and Considerations
+- Требуется подключение к интернету для вызовов API к OpenRouter
+- Производительность зависит от размера и сложности изображений
+- Вызовы API могут быть ограничены по частоте
+- Точность зависит от качества изображения и сложности объектов
+- Время отклика модели зависит от инфраструктуры OpenRouter
 
-- Requires internet connectivity for API calls to OpenRouter
-- Performance depends on image size and complexity
-- API calls may be subject to rate limits
-- Accuracy varies based on image quality and object complexity
-- Model response time depends on OpenRouter's infrastructure# Image_Detector
+ ## Trade-offs данной реализации
+ 
+ ### Плюсы
+- Бэкенд и фронтенд используют единый формат данных для координат bounding box
+- Существует общий способ взаимодействия через REST API
+- Интеграция с Redis для кэширования результатов
+- Использование Nginx для оптимизации доставки статики
+- Высокое качество визуального анализа благодаря мощной визуально-языковой модели
+- Ответственность за анализ изображений полностью на бэкенде
+- Четкое разделение функциональности между слоями
+
+### Минусы
+
+- Необходимость поддержки нескольких форматов ответов от модели (в т.ч. ошибочных)
+- Требуется сложная обработка текстовых ответов модели для извлечения структурированных данных
+- Зависимость от внешнего API (OpenRouter)
+- Каждый уровень требует своей собственной логики обработки ошибок
+- Сложность управления состоянием при увеличении нагрузки
+- Управление кэшированием (Redis) требует дополнительных усилий
+- Потенциальная нагрузка на Nginx из-за большого количества запросов
+
