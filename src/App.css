@@ -85,12 +85,31 @@
   border-radius: 4px;
   overflow: hidden;
   text-align: center;
+  position: relative;
 }
 
 .image-container img {
   width: 100%;
   height: auto;
   display: block;
+}
+
+/* Стили для чекбоксов выбора */
+.image-checkbox {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  padding: 5px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.image-checkbox input {
+  margin-right: 5px;
 }
 
 /* Стили для визуализации bounding box */
@@ -213,23 +232,89 @@
   font-size: 12px;
 }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-  .images-grid {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .image-item {
-    width: 90%;
-  }
-  
-  .input-section {
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .product-id-input {
-    width: 100%;
-  }
+/* New styles for selected images section */
+.selected-images-section {
+  background-color: #3a3f4b;
+  padding: 15px;
+  border-radius: 8px;
+  margin: 20px 0;
+  width: 80%;
+  max-width: 1200px;
 }
+
+.selected-images-section h3 {
+  color: #61dafb;
+  margin-top: 0;
+}
+
+.selected-images-list {
+  margin: 10px 0;
+  padding: 10px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.selected-image-item {
+  background-color: #2c313a;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.analyze-selected-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #4CAF50;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
+
+.analyze-selected-button:hover:not(:disabled) {
+  background-color: #388E3C;
+}
+
+.analyze-selected-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Добавляем стили для нового раздела с получением изображений */
+.images-section {
+  margin-top: 30px;
+  width: 80%;
+  max-width: 1200px;
+}
+
+.get-images-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #61dafb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-left: 10px;
+}
+
+.get-images-button:hover:not(:disabled) {
+  background-color: #21a9c0;
+}
+
+.get-images-button:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.analysis-results-section {
+  margin-top: 30px;
+  width: 80%;
+  max-width: 1200px;
+}
+
+/* Остальные стили остаются без изменений */
